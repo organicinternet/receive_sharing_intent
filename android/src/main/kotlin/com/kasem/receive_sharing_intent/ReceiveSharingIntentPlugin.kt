@@ -117,14 +117,14 @@ class ReceiveSharingIntentPlugin : FlutterPlugin, ActivityAware, MethodCallHandl
                     || intent.action == Intent.ACTION_SEND_MULTIPLE) -> { // Sharing images or videos
 
                 val value = getMediaUris(intent)
-                if (initial) initialMedia = value
+                if (initial || eventSinkMedia == null) initialMedia = value
                 latestMedia = value
                 eventSinkMedia?.success(latestMedia?.toString())
             }
             (intent.type == null || intent.type?.startsWith("text") == true)
                     && intent.action == Intent.ACTION_SEND -> { // Sharing text
                 val value = intent.getStringExtra(Intent.EXTRA_TEXT)
-                if (initial) initialText = value
+                if (initial || eventSinkText == null) initialText = value
                 latestText = value
                 eventSinkText?.success(latestText)
             }
